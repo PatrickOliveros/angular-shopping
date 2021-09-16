@@ -1,0 +1,40 @@
+/* To learn more about this file see: https://angular.io/config/tsconfig. */
+{
+  "compileOnSave": false,
+  "compilerOptions": {
+    "baseUrl": "./",
+    "outDir": "./dist/out-tsc",
+    "forceConsistentCasingInFileNames": true,
+    // find ways to enforce this to true
+    "strict": false,
+    // changed this from true to false
+    // changed this to false because of auth guard error
+    "noImplicitReturns": false,
+
+    "noFallthroughCasesInSwitch": true,
+    "sourceMap": true,
+    "declaration": false,
+    "downlevelIteration": true,
+    "experimentalDecorators": true,
+    "moduleResolution": "node",
+    "importHelpers": true,
+    // this target will ensure which browsers will be supported
+    "target": "es2017",
+    "module": "es2020",
+    "lib": [
+      "es2018",
+      "dom"
+    ],
+     "strictPropertyInitialization": false,
+     // work on this one
+     "strictNullChecks": false
+  },
+  "angularCompilerOptions": {
+    "enableI18nLegacyMessageIdFormat": false,
+    "strictInjectionParameters": false,
+    "strictInputAccessModifiers": false,
+    // "strictTemplates" - this was changed from true to false
+    "strictTemplates": false,
+    "strictDomEventTypes": false
+  }
+}
