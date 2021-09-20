@@ -57,11 +57,8 @@ namespace Infrastructure.Services
             {
                 var options = new PaymentIntentCreateOptions
                 {
-                    // strip doesn't accept decimals, only long
+                    // stripe doesn't accept decimals, only long
                     // todo: why use long vs decimals for money?
-
-                    // todo: why do we need to convert decimal to long * 100 for money?
-                    // Amount = (long)basket.Items.Sum(i => i.Quantity * (i.Price * 100)) + (long)shippingPrice * 100,
                     Amount = GetBasketAmount(basket, shippingPrice),
                     Currency = "usd",
                     PaymentMethodTypes = new List<string> { "card" }
@@ -73,10 +70,8 @@ namespace Infrastructure.Services
             else
             {
                 var options = new PaymentIntentUpdateOptions
-                {
-                    // todo: check if this line of code can be extracted to be consistent with the other block
+                {                   
                     Amount = GetBasketAmount(basket, shippingPrice)
-                    // Amount = (long)basket.Items.Sum(i => i.Quantity * (i.Price * 100)) + (long)shippingPrice * 100
                 };
                 await service.UpdateAsync(basket.PaymentIntentId, options);
             }
@@ -93,8 +88,6 @@ namespace Infrastructure.Services
 
         public async Task<Order> UpdateOrderPaymentFailed(string paymentIntentId)
         {
-            // var spec = new OrderByPaymentIntentWithItemsSpecification(paymentIntentId);
-            // var order = await _unitOfWork.Repository<Order>().GetEntityWithSpec(spec);
             var order = await GetOrderDetailsByPaymentIntentId(paymentIntentId);
 
             if (order == null) return null;
@@ -109,8 +102,6 @@ namespace Infrastructure.Services
 
         public async Task<Order> UpdateOrderPaymentSucceeded(string paymentIntentId)
         {
-            // var spec = new OrderByPaymentIntentWithItemsSpecification(paymentIntentId);
-            // var order = await _unitOfWork.Repository<Order>().GetEntityWithSpec(spec);
             var order = await GetOrderDetailsByPaymentIntentId(paymentIntentId);
 
             if (order == null) return null;
@@ -132,8 +123,6 @@ namespace Infrastructure.Services
 
         public async Task<Order> UpdateOrderPaymentStatus(string paymentIntentId, bool isPaymentSuccessful = true)
         {
-            // var spec = new OrderByPaymentIntentWithItemsSpecification(paymentIntentId);
-            // var order = await _unitOfWork.Repository<Order>().GetEntityWithSpec(spec);
             var order = await GetOrderDetailsByPaymentIntentId(paymentIntentId);
 
             if (order == null) return null;
