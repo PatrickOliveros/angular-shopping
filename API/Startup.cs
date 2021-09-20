@@ -1,4 +1,3 @@
-using System.IO;
 using API.Extensions;
 using API.Helpers.MappingProfiles;
 using API.Middleware;
@@ -11,6 +10,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.FileProviders;
 using StackExchange.Redis;
+using System.IO;
 
 namespace API
 {
@@ -53,8 +53,7 @@ namespace API
                 options.AddPolicy("CorsPolicy", policy =>
                 {
                     // specify the location of the angular app in the last
-                    // policy.AllowAnyHeader ().AllowAnyMethod ().WithOrigins (_config["AngularApp"]);
-                    policy.AllowAnyHeader().AllowAnyMethod().WithOrigins("https://localhost:4200");
+                    policy.AllowAnyHeader().AllowAnyMethod().WithOrigins(_config["AngularApp"]);
                 });
             });
         }
@@ -69,14 +68,16 @@ namespace API
             app.UseHttpsRedirection();
             app.UseRouting();
 
-            app.UseDefaultFiles(); 
+            app.UseDefaultFiles();
             app.UseStaticFiles();
 
             // this is when we need to specify a different path for our static files
-            app.UseStaticFiles(new StaticFileOptions {
+            app.UseStaticFiles(new StaticFileOptions
+            {
                 FileProvider = new PhysicalFileProvider(
                     Path.Combine(Directory.GetCurrentDirectory(), "Content")
-                ), RequestPath = "/content"
+                ),
+                RequestPath = "/content"
             });
 
             app.UseCors("CorsPolicy");
